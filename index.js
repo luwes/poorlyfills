@@ -1,6 +1,6 @@
 /*! (c) 2017 Andrea Giammarchi @WebReflection, (ISC) */
 
-export const Map = window.Map || function Map() {
+export const Map = self.Map || function Map() {
   let i, k, v;
   const clear = () => { k = []; v = []; };
   const has = obj => -1 < (i = k.indexOf(obj));
@@ -13,8 +13,8 @@ export const Map = window.Map || function Map() {
     values: () => v.slice(),
     entries: () => k.map((key, i) => [key, v[i]]),
     delete: obj => has(obj) && k.splice(i, 1) && !!v.splice(i, 1),
-    forEach(fn, self) {
-      v.forEach((value, i) => fn.call(self, value, k[i], this));
+    forEach(fn, thisArg) {
+      v.forEach((value, i) => fn.call(thisArg, value, k[i], this));
     },
     set(obj, value) {
       return (has(obj) ?
@@ -25,7 +25,7 @@ export const Map = window.Map || function Map() {
   };
 };
 
-export const Set = window.Set || function Set() {
+export const Set = self.Set || function Set() {
   const m = new Map;
   const set = m.set;
   delete m.get;
@@ -36,7 +36,7 @@ export const Set = window.Set || function Set() {
 
 let i = 0;
 const hOP = {}.hasOwnProperty;
-export const WeakMap = window.WeakMap || function WeakMap() {
+export const WeakMap = self.WeakMap || function WeakMap() {
   const id = '__' + [i++, Math.random()];
   const has = obj => hOP.call(obj, id);
   return {
@@ -53,7 +53,7 @@ export const WeakMap = window.WeakMap || function WeakMap() {
   };
 };
 
-export const WeakSet = window.WeakSet || function WeakSet() {
+export const WeakSet = self.WeakSet || function WeakSet() {
   const wm = new WeakMap;
   return {
     has: obj => wm.get(obj) === true,

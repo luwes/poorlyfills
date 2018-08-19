@@ -1,6 +1,6 @@
 /*! (c) 2017 Andrea Giammarchi @WebReflection, (ISC) */
 
-export var Map = window.Map || function Map() {
+export var Map = self.Map || function Map() {
   var i = void 0,
       k = void 0,
       v = void 0;
@@ -33,11 +33,11 @@ export var Map = window.Map || function Map() {
     delete: function _delete(obj) {
       return has(obj) && k.splice(i, 1) && !!v.splice(i, 1);
     },
-    forEach: function forEach(fn, self) {
+    forEach: function forEach(fn, thisArg) {
       var _this = this;
 
       v.forEach(function (value, i) {
-        return fn.call(self, value, k[i], _this);
+        return fn.call(thisArg, value, k[i], _this);
       });
     },
     set: function set(obj, value) {
@@ -46,7 +46,7 @@ export var Map = window.Map || function Map() {
   };
 };
 
-export var Set = window.Set || function Set() {
+export var Set = self.Set || function Set() {
   var m = new Map();
   var set = m.set;
   delete m.get;
@@ -59,7 +59,7 @@ export var Set = window.Set || function Set() {
 
 var i = 0;
 var hOP = {}.hasOwnProperty;
-export var WeakMap = window.WeakMap || function WeakMap() {
+export var WeakMap = self.WeakMap || function WeakMap() {
   var id = '__' + [i++, Math.random()];
   var has = function has(obj) {
     return hOP.call(obj, id);
@@ -82,7 +82,7 @@ export var WeakMap = window.WeakMap || function WeakMap() {
   };
 };
 
-export var WeakSet = window.WeakSet || function WeakSet() {
+export var WeakSet = self.WeakSet || function WeakSet() {
   var wm = new WeakMap();
   return {
     has: function has(obj) {
